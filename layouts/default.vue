@@ -1,8 +1,36 @@
 <template>
-  <div>
-    <Nuxt />
-  </div>
+  <a-layout id="components-layout-demo-top-side">
+    <a-layout-header class="header">
+      <TopNavbar />
+    </a-layout-header>
+    <a-layout-content class="content-layout-default">
+      <a-layout style="padding: 24px 0; background: #fff; margin: 16px 0; max-width: 1400px; width: 100%">
+        <a-layout-content :style="{ padding: '0 24px', minHeight: '280px' }">
+          <Nuxt />
+        </a-layout-content>
+      </a-layout>
+    </a-layout-content>
+    <a-layout-footer style="text-align: center">
+      VMS ©2020
+    </a-layout-footer>
+  </a-layout>
 </template>
+
+<script>
+import Vue from 'vue'
+import TopNavbar from '@/components/TopNavbar'
+
+export default Vue.extend({
+  components: {
+    TopNavbar
+  },
+  data () {
+    return {
+      show: false
+    }
+  }
+})
+</script>
 
 <style>
 html {
@@ -30,33 +58,21 @@ html {
   box-sizing: border-box;
   margin: 0;
 }
-
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
+.ant-layout-header {
+  background: #fff;
 }
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
+.content-layout-default {
+  padding: 0 50px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
 }
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+@media screen and (max-width: 500px) {
+  .content-layout-default {
+    padding: 0px;
+  }
+  .header.ant-layout-header {
+     padding: 0px 10px;
+  }
 }
 </style>

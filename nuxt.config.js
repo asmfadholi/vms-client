@@ -19,7 +19,8 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    '@/plugins/antd-ui'
+    '@/plugins/antd-ui',
+    '@/plugins/lazy-load'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -41,6 +42,11 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
+  publicRuntimeConfig: {
+    axios: {
+      baseURL: 'https://vms-demo-project.ue.r.appspot.com'
+    }
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {

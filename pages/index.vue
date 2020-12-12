@@ -1,75 +1,47 @@
 <template>
   <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        vms-client
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+    <a-row>
+      <a-col
+        v-for="({ name = '', location = '-', slug = 'none', images = [] }, idx) in areas"
+        :key="idx"
+        :lg="6"
+        :md="8"
+        :sm="12"
+        :xs="24"
+        style="padding: 10px 5px;"
+      >
+        <CardArea :title="name" :description="location" :link="`/area/detail/${slug}`" :image="findImage(images[0])" />
+      </a-col>
+    </a-row>
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue'
+import CardArea from '@/components/CardArea'
+import { getAreaList } from '@/api/area'
 
-export default Vue.extend({})
+export default Vue.extend({
+  components: {
+    CardArea
+  },
+  async asyncData ({ $axios }) {
+    const areas = await getAreaList({ axios: $axios })
+    return { areas }
+  },
+  methods: {
+    findImage (val) {
+      if (val) {
+        const { formats = {} } = val
+        const { thumbnail = {} } = formats
+        const { url } = thumbnail
+        return url
+      }
+    }
+  }
+})
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+<style lang="scss">
 
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
 </style>
