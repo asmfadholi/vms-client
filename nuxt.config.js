@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -20,7 +22,8 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     '@/plugins/antd-ui',
-    '@/plugins/lazy-load'
+    '@/plugins/lazy-load',
+    '@/plugins/generate-url'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -44,11 +47,10 @@ export default {
   axios: {},
   publicRuntimeConfig: {
     axios: {
-      baseURL: 'https://vms-demo-project.ue.r.appspot.com'
+      baseURL: process.env.BASE_URL
     }
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {
-  }
+  build: {}
 }

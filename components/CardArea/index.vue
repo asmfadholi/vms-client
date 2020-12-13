@@ -3,7 +3,7 @@
     <a-card hoverable style="max-width: 300px; width: 100%" class="card-area-component">
       <img
         slot="cover"
-        v-lazy="image"
+        v-lazy="$generateUrl(image)"
         alt="banner"
       >
       <a-card-meta :title="title" :description="description" />

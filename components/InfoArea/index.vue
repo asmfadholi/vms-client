@@ -90,7 +90,7 @@ export default Vue.extend({
         const { formats = {} } = val
         const { thumbnail = {} } = formats
         const { url } = thumbnail
-        return url
+        return this.$generateUrl(url)
       }
     }
   }
