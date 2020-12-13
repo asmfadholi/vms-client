@@ -90,4 +90,5 @@ sw.*
 *.swp
 
 .env
+.env-prod
 app.yaml
