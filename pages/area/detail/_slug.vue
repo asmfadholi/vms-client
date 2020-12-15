@@ -17,6 +17,8 @@ export default Vue.extend({
     InfoArea,
     FormArea
   },
+  scrollToTop: true,
+  transition: 'slide-bottom',
   async asyncData ({ $axios, route }) {
     const reqAreaDetail = { slug: route.params.slug }
     const reqFormArea = {

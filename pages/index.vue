@@ -25,6 +25,8 @@ export default Vue.extend({
   components: {
     CardArea
   },
+  scrollToTop: true,
+  transition: 'slide-bottom',
   async asyncData ({ $axios }) {
     const areas = await getAreaList({ axios: $axios })
     return { areas }

@@ -63,7 +63,7 @@ html {
 }
 .content-layout-default {
   padding: 0 50px;
-  min-height: 100vh;
+  min-height: calc(100vh - 64px);
   display: flex;
   justify-content: center;
 }
@@ -74,5 +74,15 @@ html {
   .header.ant-layout-header {
      padding: 0px 10px;
   }
+}
+
+.slide-bottom-enter-active,
+.slide-bottom-leave-active {
+  transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+}
+.slide-bottom-enter,
+.slide-bottom-leave-to {
+  opacity: 0;
+  transform: translate3d(0, 15px, 0);
 }
 </style>

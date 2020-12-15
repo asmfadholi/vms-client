@@ -165,10 +165,8 @@ export default Vue.extend({
       try {
         this.loading = true
         await createVisitor({ axios: this.$axios, req: val })
-        this.success()
-        this.resetForm()
+        this.$router.push(`/confirmation?areaName=${this.title}`)
       } catch (_) {
-        this.$message.error('Gagal registrasi. Silahkan coba lagi')
         this.error()
       } finally {
         this.loading = false
