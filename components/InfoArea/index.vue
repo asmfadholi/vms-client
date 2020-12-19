@@ -88,8 +88,8 @@ export default Vue.extend({
     findImage (val) {
       if (val) {
         const { formats = {} } = val
-        const { thumbnail = {} } = formats
-        const { url } = thumbnail
+        const { thumbnail = {}, large = null, medium = null } = formats
+        const { url } = large || medium || thumbnail
         return this.$generateUrl(url)
       }
     }
