@@ -27,9 +27,13 @@ export default Vue.extend({
   },
   scrollToTop: true,
   transition: 'slide-bottom',
-  async asyncData ({ $axios }) {
-    const areas = await getAreaList({ axios: $axios })
-    return { areas }
+  async asyncData ({ $axios, redirect }) {
+    try {
+      const areas = await getAreaList({ axios: $axios })
+      return { areas }
+    } catch (err) {
+      redirect('/sorry')
+    }
   },
   methods: {
     findImage (val) {
