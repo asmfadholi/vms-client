@@ -35,7 +35,7 @@ export default Vue.extend({
     findImage (val) {
       if (val) {
         const { formats = {} } = val
-        const { thumbnail = {}, medium = null } = formats
+        const { thumbnail = {}, medium = null } = formats || {}
         const { url } = medium || thumbnail
         return url
       }

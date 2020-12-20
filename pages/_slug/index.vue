@@ -49,22 +49,26 @@ export default Vue.extend({
     InfoArea,
     FormArea
   },
-  async asyncData ({ $axios, route }) {
-    const reqAreaDetail = { slug: route.params.slug }
-    const reqSlugArea = {
-      area: {
-        slug: route.params.slug
+  async asyncData ({ $axios, route, redirect }) {
+    try {
+      const reqAreaDetail = { slug: route.params.slug }
+      const reqSlugArea = {
+        area: {
+          slug: route.params.slug
+        }
       }
+      const wrapFetch = [
+        getAreaDetail({ axios: $axios, req: reqAreaDetail }),
+        getFormArea({ axios: $axios, req: reqSlugArea }),
+        getWahanaArea({ axios: $axios, req: reqSlugArea })
+      ]
+      const resWrapFetch = await Promise.all(wrapFetch)
+      const { images = [], name = '', description = '', maxQuota = null, location = '', id = 0 } = resWrapFetch[0][0] || {}
+      const { otherFields = [] } = resWrapFetch[1][0] || {}
+      return { areaId: id, images, name, description, quota: maxQuota, location, otherFields, wahanas: resWrapFetch[2] }
+    } catch (err) {
+      redirect('/sorry')
     }
-    const wrapFetch = [
-      getAreaDetail({ axios: $axios, req: reqAreaDetail }),
-      getFormArea({ axios: $axios, req: reqSlugArea }),
-      getWahanaArea({ axios: $axios, req: reqSlugArea })
-    ]
-    const resWrapFetch = await Promise.all(wrapFetch)
-    const { images = [], name = '', description = '', maxQuota = null, location = '', id = 0 } = resWrapFetch[0][0] || {}
-    const { otherFields = [] } = resWrapFetch[1][0] || {}
-    return { areaId: id, images, name, description, quota: maxQuota, location, otherFields, wahanas: resWrapFetch[2] }
   },
   data () {
     return {
