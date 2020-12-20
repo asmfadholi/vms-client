@@ -10,7 +10,7 @@
         :xs="24"
         style="padding: 10px 5px;"
       >
-        <CardArea :title="name" :description="location" :link="`/area/detail/${slug}`" :image="findImage(images[0])" />
+        <CardArea :title="name" :description="location" :link="`/${slug}`" :image="findImage(images[0])" />
       </a-col>
     </a-row>
   </div>

@@ -9,6 +9,10 @@
     "generate": "nuxt-ts generate",
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint": "npm run lint:js",
+    "deploy:staging": "gcloud app deploy app-staging.yaml --project staging-vms",
+    "routing:staging": "gcloud app deploy dispatch-staging.yaml --project staging-vms",
+    "deploy:prod": "gcloud app deploy app-production.yaml --project outing-vms-app",
+    "routing:prod": "gcloud app deploy dispatch-production.yaml --project outing-vms-app",
     "test": "jest"
   },
   "lint-staged": {
@@ -29,7 +33,8 @@
     "dot-qs": "^0.2.0",
     "dotenv": "^8.2.0",
     "nuxt": "^2.14.6",
-    "vue-lazyload": "^1.3.3"
+    "vue-lazyload": "^1.3.3",
+    "vue-qrcode-reader": "^2.3.16"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",

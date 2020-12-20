@@ -91,4 +91,10 @@ sw.*
 
 .env
 .env-prod
+
 app.yaml
+app-copy.yaml
+app-*.yaml
+
+dispatch.yaml
+dispatch-*

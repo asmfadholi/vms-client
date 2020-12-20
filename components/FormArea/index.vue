@@ -7,6 +7,17 @@
     <h2 style="text-align: center">
       Pengunjung {{ title }}
     </h2>
+    <a-form-model-item ref="bookingCode" label="Kode Tiket" prop="bookingCode">
+      <a-space size="small">
+        <a-input
+          v-model="form.bookingCode"
+          placeholder="Kode Tiket"
+        />
+        <a-button @click="visible = !visible">
+          Scan QR
+        </a-button>
+      </a-space>
+    </a-form-model-item>
     <a-form-model-item ref="name" label="Nama" prop="name">
       <a-input
         v-model="form.name"
@@ -95,6 +106,15 @@
         </a-button>
       </a-popconfirm>
     </a-form-model-item>
+    <a-modal
+      class="modal-style"
+      title="Scan QR"
+      :visible="visible"
+      :footer="null"
+      @cancel="visible = !visible"
+    >
+      <qrcode-stream @decode="onDecode" />
+    </a-modal>
   </a-form-model>
 </template>
 
@@ -120,6 +140,7 @@ export default Vue.extend({
   },
   data () {
     return {
+      visible: false,
       loading: false,
       FORM_TYPE,
       newOtherFields: [],
@@ -128,11 +149,15 @@ export default Vue.extend({
         gender: '',
         email: '',
         phoneNumber: '',
-        isCheckin: true
+        isCheckin: true,
+        bookingCode: ''
       },
       rules: {
         name: [
           { required: true, message: 'Field is required', trigger: 'blur' }
+        ],
+        bookingCode: [
+          { required: true, message: 'Field is required', trigger: 'change' }
         ],
         gender: [{ required: true, message: 'Field is required', trigger: 'change' }],
         email: [
@@ -150,6 +175,10 @@ export default Vue.extend({
     this.generateForm(this.otherFields)
   },
   methods: {
+    onDecode (decodeString) {
+      this.form.bookingCode = decodeString
+      this.visible = !this.visible
+    },
     onSubmit () {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
@@ -232,6 +261,11 @@ export default Vue.extend({
     height: 150px;
     object-fit: cover;
     width: 100%;
+  }
+}
+.modal-style {
+  .ant-modal-body {
+    padding: 0px;
   }
 }
 </style>
