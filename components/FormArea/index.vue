@@ -182,8 +182,11 @@ export default Vue.extend({
     onSubmit () {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
+          const { phoneNumber = 0 } = this.form
           const req = { ...this.form }
-          req.phoneNumber = Number(req.phoneNumber)
+
+          // assign other parameter
+          req.phoneNumber = Number(phoneNumber)
           this.doCreateVisitor(req)
         } else {
           return false

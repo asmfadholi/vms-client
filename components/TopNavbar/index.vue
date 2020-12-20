@@ -12,6 +12,11 @@
           :default-selected-keys="['1']"
           :style="{ lineHeight: '64px' }"
         >
+          <a-menu-item key="2" @click="onNavigate(2)">
+            <nuxt-link to="/ticket">
+              Beli Tiket
+            </nuxt-link>
+          </a-menu-item>
           <a-menu-item key="1" @click="onNavigate(1)">
             <nuxt-link to="/">
               Home
