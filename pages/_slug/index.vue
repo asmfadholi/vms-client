@@ -19,20 +19,6 @@
       :wahanas="wahanas"
     />
     <FormArea :title="name" :other-fields="otherFields" :area-id="areaId" />
-    <!-- <a-modal
-      title="Scan QR"
-      :visible="visible"
-      :confirm-loading="confirmLoading"
-      :footer="null"
-      @cancel="visible = !visible"
-    >
-      <qrcode-stream @decode="onDecode" />
-    </a-modal> -->
-    <!-- <a-button @click="visible = !visible">
-      Click Scan QR
-    </a-button> -->
-    <!-- <qrcode-drop-zone />
-    <qrcode-capture /> -->
   </div>
 </template>
 
