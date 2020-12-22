@@ -40,6 +40,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa'
   ],
@@ -53,5 +54,19 @@ export default {
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {}
+  build: {},
+  auth: {
+    localStorage: {
+      prefix: 'auth.'
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/auth/local', method: 'post', propertyName: 'access_token' },
+          user: false,
+          logout: false
+        }
+      }
+    }
+  }
 }

@@ -7,6 +7,13 @@
         alt="banner"
       >
       <a-card-meta :title="title" :description="description" />
+      <template v-if="mode === 'payment'" slot="actions" class="ant-card-actions">
+        <nuxt-link :to="`/payment/${slug}`">
+          <a-button type="primary">
+            Beli Tiket
+          </a-button>
+        </nuxt-link>
+      </template>
     </a-card>
   </nuxt-link>
 </template>
@@ -16,6 +23,10 @@ import Vue from 'vue'
 
 export default Vue.extend({
   props: {
+    slug: {
+      type: String,
+      default: ''
+    },
     link: {
       type: String,
       default: '/'
@@ -31,6 +42,10 @@ export default Vue.extend({
     description: {
       type: String,
       default: '-'
+    },
+    mode: {
+      type: String,
+      default: 'plain'
     }
   }
 })

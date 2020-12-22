@@ -6,15 +6,8 @@
     class="form-area-component"
   >
     <h2 style="text-align: center">
-      Formulir Pengunjung {{ title }}
+      Formulir Beli Tiket ({{ title }})
     </h2>
-
-    <div size="small" class="qr-code-scan">
-      <h3> Scan Kode QR di Sini </h3>
-      <a-button @click="visible = !visible">
-        Scan QR
-      </a-button>
-    </div>
 
     <a-divider orientation="left">
       <span>Identitas diri</span>
@@ -45,14 +38,16 @@
       />
     </a-form-model-item>
     <a-form-model-item label="Jenis Kelamin" prop="gender">
-      <a-radio-group v-model="form.gender">
-        <a-radio value="laki-laki">
-          Laki-laki
-        </a-radio>
-        <a-radio value="perempuan">
-          Perempuan
-        </a-radio>
-      </a-radio-group>
+      <div>
+        <a-radio-group v-model="form.gender">
+          <a-radio value="laki-laki">
+            Laki-laki
+          </a-radio>
+          <a-radio value="perempuan">
+            Perempuan
+          </a-radio>
+        </a-radio-group>
+      </div>
     </a-form-model-item>
 
     <a-divider orientation="left">
@@ -136,7 +131,7 @@
 
     <a-form-model-item>
       <a-button type="primary" :loading="loading" @click="onSubmit">
-        Masuk
+        Beli
       </a-button>
       <a-popconfirm placement="top" ok-text="Yes" cancel-text="No" @confirm="resetForm">
         <template slot="title">
@@ -147,23 +142,13 @@
         </a-button>
       </a-popconfirm>
     </a-form-model-item>
-    <a-modal
-      class="modal-style"
-      title="Scan QR"
-      :visible="visible"
-      :footer="null"
-      @cancel="visible = !visible"
-    >
-      <qrcode-stream @decode="onDecode" />
-    </a-modal>
   </a-form-model>
 </template>
 
 <script>
 import Vue from 'vue'
 import { FORM_TYPE } from '@/constants'
-import { createVisitor } from '@/api/visitor'
-import { createTicket, getTicket } from '@/api/ticket'
+import { createTicket } from '@/api/ticket'
 
 export default Vue.extend({
   props: {
@@ -223,34 +208,27 @@ export default Vue.extend({
       }
     }
   },
+  watch: {
+    'form.type' (newVal) {
+      if (newVal === 'package') {
+        this.form.wahanas = []
+      } else {
+        this.form.package = undefined
+      }
+    }
+  },
   created () {
     this.generateForm(this.otherFields)
   },
   methods: {
-    async onDecode (decodeString) {
+    onDecode (decodeString) {
       this.form.bookingCode = decodeString
-      try {
-        const req = {
-          bookingCode: decodeString,
-          area: { id: this.areaId }
-        }
-        const [dataTicket = {}] = await getTicket({ axios: this.$axios, req })
-        if (dataTicket.id) {
-          dataTicket.id = null
-          this.doCreateVisitor(dataTicket)
-        } else {
-          this.error()
-        }
-      } catch (err) {
-        this.error()
-      } finally {
-        this.visible = !this.visible
-      }
+      this.visible = !this.visible
     },
     onSubmit () {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          const { phoneNumber = 0, package: packageData = null } = this.form
+          const { phoneNumber = 0, package: packageData = '' } = this.form
           const req = { ...this.form }
 
           // assign other parameter
@@ -260,29 +238,18 @@ export default Vue.extend({
           if (packageData) {
             req.package = { id: packageData }
           }
-          this.doCheckTicket(req)
+
+          this.doCreateTicket(req)
         } else {
           return false
         }
       })
     },
-    async doCheckTicket (val) {
+    async doCreateTicket (val) {
       try {
         this.loading = true
-        const dataTicket = await createTicket({ axios: this.$axios, req: val })
-        dataTicket.id = null
-        await this.doCreateVisitor(dataTicket)
-      } catch (_) {
-        this.error()
-      } finally {
-        this.loading = false
-      }
-    },
-    async doCreateVisitor (val) {
-      try {
-        this.loading = true
-        await createVisitor({ axios: this.$axios, req: val })
-        this.$router.push(`/confirmation?areaName=${this.title}&type=Registrasi`)
+        await createTicket({ axios: this.$axios, req: val })
+        this.$router.push(`/confirmation?areaName=${this.title}&type=Transaksi`)
       } catch (_) {
         this.error()
       } finally {
@@ -300,18 +267,18 @@ export default Vue.extend({
     },
     success () {
       this.$success({
-        title: 'Registrasi Berhasil',
+        title: 'Berhasil Beli Tiket',
         // JSX support
         content: (
           <div>
-            <span>Terima Kasih, Silahkan Masuk</span>
+            <span>Terima Kasih, Silahkan Cek Email</span>
           </div>
         )
       })
     },
     error () {
       this.$error({
-        title: 'Registrasi Gagal',
+        title: 'Gagal Beli Tiket',
         // JSX support
         content: (
           <div>
@@ -343,12 +310,5 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss" scoped>
-.form-area-component {
-  .qr-code-scan {
-    text-align: center;
-    padding: 30px;
-    border: 1px dashed #000;
-  }
-}
+<style lang="scss">
 </style>

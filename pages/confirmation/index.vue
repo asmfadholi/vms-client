@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <CardConfirmation title="Registrasi Berhasil!" :description="areaName" />
+    <CardConfirmation :title="`${type} Berhasil!`" :description="areaName" />
   </div>
 </template>
 
@@ -17,6 +17,9 @@ export default Vue.extend({
   computed: {
     areaName () {
       return `Selamat Datang ${this.$route.query.areaName ? `di ${this.$route.query.areaName}` : ''}`
+    },
+    type () {
+      return this.$route.query.type || ''
     }
   }
 })

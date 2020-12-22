@@ -1,8 +1,8 @@
 <template>
   <div class="info-area-component">
-    <a-divider>
-      <h2><b style="white-space: normal">{{ title }}</b></h2>
-    </a-divider>
+    <h1 style="padding: 40px 0px 20px; font-size: 30px; text-align: center">
+      <b style="white-space: normal">{{ title }}</b>
+    </h1>
     <a-carousel arrows autoplay>
       <div
         slot="prevArrow"

@@ -12,18 +12,18 @@
     </a-breadcrumb>
     <InfoArea
       :images="images"
-      :title="name"
+      :title="`Beli Tiket (${name})`"
       :quota="quota"
       :description="description"
       :location="location"
       :wahanas="wahanas"
     />
-    <FormArea
+    <FormTiket
       :title="name"
       :other-fields="otherFields"
       :area-id="areaId"
-      :wahanas="wahanas"
       :packages="packages"
+      :wahanas="wahanas"
     />
   </div>
 </template>
@@ -31,7 +31,7 @@
 <script>
 import Vue from 'vue'
 import InfoArea from '@/components/InfoArea'
-import FormArea from '@/components/FormArea'
+import FormTiket from '@/components/FormTiket'
 import { getAreaDetail } from '@/api/area'
 import { getFormArea } from '@/api/form'
 import { getWahanaArea } from '@/api/wahana'
@@ -40,9 +40,8 @@ import { getPackageArea } from '@/api/package'
 export default Vue.extend({
   components: {
     InfoArea,
-    FormArea
+    FormTiket
   },
-  middleware: ['auth'],
   async asyncData ({ $axios, route, redirect }) {
     try {
       const reqAreaDetail = { slug: route.params.slug }
@@ -60,17 +59,7 @@ export default Vue.extend({
       const resWrapFetch = await Promise.all(wrapFetch)
       const { images = [], name = '', description = '', maxQuota = null, location = '', id = 0 } = resWrapFetch[0][0] || {}
       const { otherFields = [] } = resWrapFetch[1][0] || {}
-      return {
-        areaId: id,
-        images,
-        name,
-        description,
-        quota: maxQuota,
-        location,
-        otherFields,
-        wahanas: resWrapFetch[2],
-        packages: resWrapFetch[3]
-      }
+      return { areaId: id, images, name, description, quota: maxQuota, location, otherFields, wahanas: resWrapFetch[2], packages: resWrapFetch[3] }
     } catch (err) {
       redirect('/sorry')
     }

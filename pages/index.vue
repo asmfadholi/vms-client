@@ -2,7 +2,7 @@
   <div class="container">
     <a-row>
       <a-col
-        v-for="({ name = '', location = '-', slug = 'none', images = [] }, idx) in areas"
+        v-for="({ name = '', location = '-', slug = '', images = [] }, idx) in areas"
         :key="idx"
         :lg="6"
         :md="8"
@@ -10,7 +10,14 @@
         :xs="24"
         style="padding: 10px 5px;"
       >
-        <CardArea :title="name" :description="location" :link="`/${slug}`" :image="findImage(images[0])" />
+        <CardArea
+          :title="name"
+          :description="location"
+          :link="`/${slug}`"
+          :image="findImage(images[0])"
+          :slug="slug"
+          mode="payment"
+        />
       </a-col>
     </a-row>
   </div>
@@ -48,6 +55,12 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss">
-
+<style lang="
+          scss"
+        >
 </style>
+        </cardarea>
+      </a-col>
+    </a-row>
+  </div>
+</template>
