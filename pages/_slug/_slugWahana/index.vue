@@ -21,8 +21,7 @@
       :title="wahanaName"
       :other-fields="otherFields"
       :area-id="areaId"
-      :wahanas="wahanas"
-      :packages="packages"
+      :wahana-id="wahanaId"
     />
   </div>
 </template>
@@ -33,7 +32,6 @@ import InfoWahana from '@/components/InfoWahana'
 import FormWahana from '@/components/FormWahana'
 import { getFormArea } from '@/api/form'
 import { getWahanaArea } from '@/api/wahana'
-import { getPackageArea } from '@/api/package'
 
 export default Vue.extend({
   components: {
@@ -51,24 +49,21 @@ export default Vue.extend({
       }
       const wrapFetch = [
         getWahanaArea({ axios: $axios, req: reqWahanaDetail }),
-        $auth.loggedIn ? getFormArea({ axios: $axios, req: reqSlugArea }) : [],
-        $auth.loggedIn ? getWahanaArea({ axios: $axios, req: reqSlugArea }) : [],
-        $auth.loggedIn ? getPackageArea({ axios: $axios, req: reqSlugArea }) : []
+        $auth.loggedIn ? getFormArea({ axios: $axios, req: reqSlugArea }) : []
       ]
       const resWrapFetch = await Promise.all(wrapFetch)
       const { images = [], name = '', description = '', maxQuota = null, location = '', id = 0, area = {} } = resWrapFetch[0][0] || {}
       const { otherFields = [] } = resWrapFetch[1][0] || {}
       return {
-        areaId: id,
+        areaId: area.id || 0,
+        wahanaId: id,
         images,
         wahanaName: name,
         areaName: area.name || '-',
         description,
         quota: maxQuota,
         location,
-        otherFields,
-        wahanas: resWrapFetch[2],
-        packages: resWrapFetch[3]
+        otherFields
       }
     } catch (err) {
       redirect('/sorry')
@@ -91,7 +86,7 @@ export default Vue.extend({
           breadcrumbName: this.areaName
         },
         {
-          path: `/${this.$route.params.slug}`,
+          // path: `/${this.$route.params.slug}`,
           breadcrumbName: this.wahanaName
         }
       ]

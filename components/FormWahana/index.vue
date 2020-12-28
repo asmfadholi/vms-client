@@ -129,8 +129,9 @@
 <script>
 import Vue from 'vue'
 import { FORM_TYPE } from '@/constants'
-import { createVisitor } from '@/api/visitor'
-import { createTicket, getTicket } from '@/api/ticket'
+import { createWahanaVisitor } from '@/api/wahana-visitor'
+import { getVisitor } from '@/api/visitor'
+// import { createTicket } from '@/api/ticket'
 
 export default Vue.extend({
   props: {
@@ -139,6 +140,10 @@ export default Vue.extend({
       default: 'Title'
     },
     areaId: {
+      type: Number,
+      default: 0
+    },
+    wahanaId: {
       type: Number,
       default: 0
     },
@@ -201,10 +206,10 @@ export default Vue.extend({
           bookingCode: decodeString,
           area: { id: this.areaId }
         }
-        const [dataTicket = {}] = await getTicket({ axios: this.$axios, req })
-        if (dataTicket.id) {
-          dataTicket.id = null
-          this.doCreateVisitor(dataTicket)
+        const [dataVisitor = {}] = await getVisitor({ axios: this.$axios, req })
+        const { id: visitorId } = dataVisitor
+        if (visitorId) {
+          this.doCreateWahanaVisitor({ ...dataVisitor, visitor: visitorId, wahana: this.wahanaId })
         } else {
           this.error()
         }
@@ -217,38 +222,21 @@ export default Vue.extend({
     onSubmit () {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          const { phoneNumber = 0, package: packageData = null } = this.form
-          const req = { ...this.form }
+          const { phoneNumber = 0 } = this.form
+          const req = { ...this.form, wahana: this.wahanaId }
 
           // assign other parameter
           req.phoneNumber = Number(phoneNumber)
-
-          // change package format
-          if (packageData) {
-            req.package = { id: packageData }
-          }
-          this.doCheckTicket(req)
+          this.doCreateWahanaVisitor(req)
         } else {
           return false
         }
       })
     },
-    async doCheckTicket (val) {
+    async doCreateWahanaVisitor (val) {
       try {
         this.loading = true
-        const dataTicket = await createTicket({ axios: this.$axios, req: val })
-        dataTicket.id = null
-        await this.doCreateVisitor(dataTicket)
-      } catch (_) {
-        this.error()
-      } finally {
-        this.loading = false
-      }
-    },
-    async doCreateVisitor (val) {
-      try {
-        this.loading = true
-        await createVisitor({ axios: this.$axios, req: val })
+        await createWahanaVisitor({ axios: this.$axios, req: val })
         this.$router.push(`/confirmation?areaName=${this.title}&type=Registrasi`)
       } catch (_) {
         this.error()
