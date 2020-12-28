@@ -24,15 +24,6 @@
     <a-row>
       <a-col :lg="12">
         <a-space size="small">
-          <a-icon type="environment" />
-          <b> Lokasi </b>
-        </a-space>
-        <p style="padding-left: 20px">
-          {{ location }}
-        </p>
-      </a-col>
-      <a-col :lg="12">
-        <a-space size="small">
           <a-icon type="plus-square" />
           <b>Maksimal Pengunjung </b>
         </a-space>
@@ -49,25 +40,6 @@
           {{ description }}
         </p>
       </a-col>
-      <a-col :lg="24">
-        <a-space size="small">
-          <a-icon type="appstore" />
-          <b>Wahana </b>
-        </a-space>
-        <div style="white-space: nowrap; overflow: scroll">
-          <div
-            v-for="({ name: titleWahana = '', slug = '', images: imagesWahana = []}, idx) in wahanas"
-            :key="idx"
-            style="display: inline-block; margin: 10px 10px 10px 0px"
-            class="restyle-card"
-          >
-            <CardArea :title="titleWahana" description="" :link="`/${$route.params.slug}/${slug}`" :image="findImage(imagesWahana[0])" />
-          </div>
-          <div v-if="wahanas.length === 0">
-            Wahana tidak ditemukan
-          </div>
-        </div>
-      </a-col>
     </a-row>
     <a-divider />
   </div>
@@ -75,12 +47,8 @@
 
 <script>
 import Vue from 'vue'
-import CardArea from '@/components/CardArea'
 
 export default Vue.extend({
-  components: {
-    CardArea
-  },
   props: {
     link: {
       type: String,

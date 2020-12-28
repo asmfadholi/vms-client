@@ -10,16 +10,15 @@
         </router-link>
       </template>
     </a-breadcrumb>
-    <InfoArea
+    <InfoWahana
       :images="images"
-      :title="name"
+      :title="wahanaName"
       :quota="quota"
       :description="description"
-      :location="location"
-      :wahanas="wahanas"
     />
-    <FormArea
-      :title="name"
+    <FormWahana
+      v-if="$auth.loggedIn"
+      :title="wahanaName"
       :other-fields="otherFields"
       :area-id="areaId"
       :wahanas="wahanas"
@@ -30,40 +29,40 @@
 
 <script>
 import Vue from 'vue'
-import InfoArea from '@/components/InfoArea'
-import FormArea from '@/components/FormArea'
-import { getAreaDetail } from '@/api/area'
+import InfoWahana from '@/components/InfoWahana'
+import FormWahana from '@/components/FormWahana'
 import { getFormArea } from '@/api/form'
 import { getWahanaArea } from '@/api/wahana'
 import { getPackageArea } from '@/api/package'
 
 export default Vue.extend({
   components: {
-    InfoArea,
-    FormArea
+    InfoWahana,
+    FormWahana
   },
   // middleware: ['auth'],
-  async asyncData ({ $axios, route, redirect }) {
+  async asyncData ({ $axios, route, redirect, $auth }) {
     try {
-      const reqAreaDetail = { slug: route.params.slug }
+      const reqWahanaDetail = { slug: route.params.slugWahana }
       const reqSlugArea = {
         area: {
           slug: route.params.slug
         }
       }
       const wrapFetch = [
-        getAreaDetail({ axios: $axios, req: reqAreaDetail }),
-        getFormArea({ axios: $axios, req: reqSlugArea }),
-        getWahanaArea({ axios: $axios, req: reqSlugArea }),
-        getPackageArea({ axios: $axios, req: reqSlugArea })
+        getWahanaArea({ axios: $axios, req: reqWahanaDetail }),
+        $auth.loggedIn ? getFormArea({ axios: $axios, req: reqSlugArea }) : [],
+        $auth.loggedIn ? getWahanaArea({ axios: $axios, req: reqSlugArea }) : [],
+        $auth.loggedIn ? getPackageArea({ axios: $axios, req: reqSlugArea }) : []
       ]
       const resWrapFetch = await Promise.all(wrapFetch)
-      const { images = [], name = '', description = '', maxQuota = null, location = '', id = 0 } = resWrapFetch[0][0] || {}
+      const { images = [], name = '', description = '', maxQuota = null, location = '', id = 0, area = {} } = resWrapFetch[0][0] || {}
       const { otherFields = [] } = resWrapFetch[1][0] || {}
       return {
         areaId: id,
         images,
-        name,
+        wahanaName: name,
+        areaName: area.name || '-',
         description,
         quota: maxQuota,
         location,
@@ -89,7 +88,11 @@ export default Vue.extend({
         },
         {
           path: `/${this.$route.params.slug}`,
-          breadcrumbName: this.name
+          breadcrumbName: this.areaName
+        },
+        {
+          path: `/${this.$route.params.slug}`,
+          breadcrumbName: this.wahanaName
         }
       ]
     }
