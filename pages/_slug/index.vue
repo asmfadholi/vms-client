@@ -13,12 +13,13 @@
     <InfoArea
       :images="images"
       :title="name"
-      :quota="quota"
+      :quota="Number(quota)"
       :description="description"
       :location="location"
       :wahanas="wahanas"
     />
     <FormArea
+      v-if="$auth.loggedIn && isAllow"
       :title="name"
       :other-fields="otherFields"
       :area-id="areaId"
@@ -81,6 +82,11 @@ export default Vue.extend({
     }
   },
   computed: {
+    isAllow () {
+      const { role = {} } = this.$auth.user || {}
+      const { type = '' } = role
+      return type === 'admin_area' || type === 'super_admin'
+    },
     routes () {
       return [
         {

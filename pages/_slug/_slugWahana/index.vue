@@ -13,11 +13,11 @@
     <InfoWahana
       :images="images"
       :title="wahanaName"
-      :quota="quota"
+      :quota="Number(quota)"
       :description="description"
     />
     <FormWahana
-      v-if="$auth.loggedIn"
+      v-if="$auth.loggedIn && isAllow"
       :title="wahanaName"
       :other-fields="otherFields"
       :area-id="areaId"
@@ -75,6 +75,11 @@ export default Vue.extend({
     }
   },
   computed: {
+    isAllow () {
+      const { role = {} } = this.$auth.user || {}
+      const { type = '' } = role
+      return type === 'admin_wahana' || type === 'super_admin'
+    },
     routes () {
       return [
         {

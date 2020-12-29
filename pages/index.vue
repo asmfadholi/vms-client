@@ -54,13 +54,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style lang="
-          scss"
-        >
-</style>
-        </cardarea>
-      </a-col>
-    </a-row>
-  </div>
-</template>
