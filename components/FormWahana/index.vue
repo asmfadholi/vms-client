@@ -84,6 +84,17 @@
           :placeholder="field.label"
         />
       </template>
+      <template v-else-if="field.type === FORM_TYPE.SELECT">
+        <a-select
+          v-model="form.otherDatas[field.prop]"
+          :placeholder="field.label"
+          allow-clear
+        >
+          <a-select-option v-for="(option, opsIdx) in field.options" :key="opsIdx" :value="option">
+            {{ option }}
+          </a-select-option>
+        </a-select>
+      </template>
       <template v-else-if="field.type === FORM_TYPE.LONG_TEXT">
         <a-textarea
           v-model="form.otherDatas[field.prop]"

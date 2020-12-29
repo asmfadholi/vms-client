@@ -106,6 +106,17 @@
           </a-radio>
         </a-radio-group>
       </template>
+      <template v-else-if="field.type === FORM_TYPE.SELECT">
+        <a-select
+          v-model="form.otherDatas[field.prop]"
+          :placeholder="field.label"
+          allow-clear
+        >
+          <a-select-option v-for="(option, opsIdx) in field.options" :key="opsIdx" :value="option">
+            {{ option }}
+          </a-select-option>
+        </a-select>
+      </template>
       <template v-else-if="field.type === FORM_TYPE.SHORT_TEXT">
         <a-input
           v-model="form.otherDatas[field.prop]"

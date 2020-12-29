@@ -19,6 +19,7 @@
       :wahanas="wahanas"
     />
     <FormTiket
+      v-if="!isServer"
       :title="name"
       :other-fields="otherFields"
       :area-id="areaId"
@@ -70,6 +71,9 @@ export default Vue.extend({
     }
   },
   computed: {
+    isServer () {
+      return !process.client
+    },
     routes () {
       return [
         {

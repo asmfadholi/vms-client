@@ -44,7 +44,7 @@ export default Vue.extend({
     FormArea
   },
   // middleware: ['auth'],
-  async asyncData ({ $axios, route, redirect }) {
+  async asyncData ({ $axios, route, redirect, $auth }) {
     try {
       const reqAreaDetail = { slug: route.params.slug }
       const reqSlugArea = {
@@ -61,7 +61,11 @@ export default Vue.extend({
       const resWrapFetch = await Promise.all(wrapFetch)
       const { images = [], name = '', description = '', maxQuota = null, location = '', id = 0 } = resWrapFetch[0][0] || {}
       const { otherFields = [] } = resWrapFetch[1][0] || {}
+      const { role = {} } = $auth.$storage.getCookie('user') || {}
+      const { type = '' } = role
+      const isAllow = type === 'admin_area' || type === 'super_admin'
       return {
+        isAllow,
         areaId: id,
         images,
         name,
@@ -82,11 +86,6 @@ export default Vue.extend({
     }
   },
   computed: {
-    isAllow () {
-      const { role = {} } = this.$auth.user || {}
-      const { type = '' } = role
-      return type === 'admin_area' || type === 'super_admin'
-    },
     routes () {
       return [
         {

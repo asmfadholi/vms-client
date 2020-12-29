@@ -4,6 +4,7 @@
     :model="form"
     :rules="rules"
     class="login-page"
+    @submit="onSubmit"
   >
     <h2 class="wrap-logo">
       <nuxt-link to="/">
@@ -28,7 +29,7 @@
     <!-- Part Dynamic End -->
 
     <a-form-model-item style="text-align: center">
-      <a-button type="primary" :loading="loading" @click="onSubmit">
+      <a-button type="primary" :loading="loading" html-type="submit" @click="onSubmit">
         Masuk
       </a-button>
     </a-form-model-item>
@@ -60,7 +61,8 @@ export default Vue.extend({
     }
   },
   methods: {
-    onSubmit () {
+    onSubmit (e) {
+      e.preventDefault()
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.doLogin(this.form)
