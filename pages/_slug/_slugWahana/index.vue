@@ -54,11 +54,7 @@ export default Vue.extend({
       const resWrapFetch = await Promise.all(wrapFetch)
       const { images = [], name = '', description = '', maxQuota = null, location = '', id = 0, area = {} } = resWrapFetch[0][0] || {}
       const { otherFields = [] } = resWrapFetch[1][0] || {}
-      const { role = {} } = $auth.$storage.getCookie('user') || {}
-      const { type = '' } = role
-      const isAllow = type === 'admin_wahana' || type === 'super_admin'
       return {
-        isAllow,
         areaId: area.id || 0,
         wahanaId: id,
         images,
@@ -75,7 +71,8 @@ export default Vue.extend({
   },
   data () {
     return {
-      visible: false
+      visible: false,
+      isAllow: false
     }
   },
   computed: {
@@ -90,11 +87,16 @@ export default Vue.extend({
           breadcrumbName: this.areaName
         },
         {
-          // path: `/${this.$route.params.slug}`,
           breadcrumbName: this.wahanaName
         }
       ]
     }
+  },
+  mounted () {
+    const { role = {} } = this.$auth.$storage.getUniversal('user') || {}
+    const { type = '' } = role
+    const isAllow = type === 'admin_wahana' || type === 'super_admin'
+    this.isAllow = isAllow
   },
   scrollToTop: true,
   transition: 'slide-bottom'

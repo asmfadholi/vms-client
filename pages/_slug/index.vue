@@ -54,18 +54,14 @@ export default Vue.extend({
       }
       const wrapFetch = [
         getAreaDetail({ axios: $axios, req: reqAreaDetail }),
-        getFormArea({ axios: $axios, req: reqSlugArea }),
+        $auth.loggedIn ? getFormArea({ axios: $axios, req: reqSlugArea }) : [],
         getWahanaArea({ axios: $axios, req: reqSlugArea }),
-        getPackageArea({ axios: $axios, req: reqSlugArea })
+        $auth.loggedIn ? getPackageArea({ axios: $axios, req: reqSlugArea }) : []
       ]
       const resWrapFetch = await Promise.all(wrapFetch)
       const { images = [], name = '', description = '', maxQuota = null, location = '', id = 0 } = resWrapFetch[0][0] || {}
       const { otherFields = [] } = resWrapFetch[1][0] || {}
-      const { role = {} } = $auth.$storage.getCookie('user') || {}
-      const { type = '' } = role
-      const isAllow = type === 'admin_area' || type === 'super_admin'
       return {
-        isAllow,
         areaId: id,
         images,
         name,
@@ -82,6 +78,7 @@ export default Vue.extend({
   },
   data () {
     return {
+      isAllow: false,
       visible: false
     }
   },
@@ -98,6 +95,12 @@ export default Vue.extend({
         }
       ]
     }
+  },
+  mounted () {
+    const { role = {} } = this.$auth.$storage.getUniversal('user') || {}
+    const { type = '' } = role
+    const isAllow = type === 'admin_area' || type === 'super_admin'
+    this.isAllow = isAllow
   },
   scrollToTop: true,
   transition: 'slide-bottom'
