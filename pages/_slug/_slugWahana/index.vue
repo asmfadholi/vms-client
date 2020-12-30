@@ -56,7 +56,7 @@ export default Vue.extend({
       const { otherFields = [] } = resWrapFetch[1][0] || {}
       const { role = {} } = $auth.$storage.getCookie('user') || {}
       const { type = '' } = role
-      const isAllow = type === 'admin_area' || type === 'super_admin'
+      const isAllow = type === 'admin_wahana' || type === 'super_admin'
       return {
         isAllow,
         areaId: area.id || 0,
