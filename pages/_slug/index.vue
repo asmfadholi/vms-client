@@ -19,7 +19,7 @@
       :wahanas="wahanas"
     />
     <FormArea
-      v-if="$auth.loggedIn && isAllow"
+      v-if="isAllow"
       :title="name"
       :other-fields="otherFields"
       :area-id="areaId"
@@ -44,7 +44,7 @@ export default Vue.extend({
     FormArea
   },
   // middleware: ['auth'],
-  async asyncData ({ $axios, route, redirect, $auth }) {
+  async asyncData ({ $axios, route, redirect }) {
     try {
       const reqAreaDetail = { slug: route.params.slug }
       const reqSlugArea = {
@@ -54,9 +54,9 @@ export default Vue.extend({
       }
       const wrapFetch = [
         getAreaDetail({ axios: $axios, req: reqAreaDetail }),
-        $auth.loggedIn ? getFormArea({ axios: $axios, req: reqSlugArea }) : [],
+        getFormArea({ axios: $axios, req: reqSlugArea }),
         getWahanaArea({ axios: $axios, req: reqSlugArea }),
-        $auth.loggedIn ? getPackageArea({ axios: $axios, req: reqSlugArea }) : []
+        getPackageArea({ axios: $axios, req: reqSlugArea })
       ]
       const resWrapFetch = await Promise.all(wrapFetch)
       const { images = [], name = '', description = '', maxQuota = null, location = '', id = 0 } = resWrapFetch[0][0] || {}

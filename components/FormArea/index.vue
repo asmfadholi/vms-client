@@ -65,9 +65,9 @@
           <a-radio value="package">
             Package
           </a-radio>
-          <a-radio value="custom">
+          <!-- <a-radio value="custom">
             Custom
-          </a-radio>
+          </a-radio> -->
         </a-radio-group>
       </div>
     </a-form-model-item>
