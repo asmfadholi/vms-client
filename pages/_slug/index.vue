@@ -97,10 +97,10 @@ export default Vue.extend({
     }
   },
   mounted () {
-    const { role = {} } = this.$auth.$storage.getUniversal('user') || {}
-    const { type = '' } = role
-    const isAllow = type === 'admin_area' || type === 'super_admin'
-    this.isAllow = isAllow
+    // const { role = {} } = this.$auth.$storage.getUniversal('user') || {}
+    // const { type = '' } = role
+    // const isAllow = type === 'admin_area' || type === 'super_admin'
+    this.isAllow = true
   },
   scrollToTop: true,
   transition: 'slide-bottom'
