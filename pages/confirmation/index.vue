@@ -1,17 +1,13 @@
 <template>
   <div class="container">
-    <CardConfirmation :title="`${type} Berhasil!`" :description="areaName" />
+    <LazyCardConfirmation :title="`${type} Berhasil!`" :description="areaName" />
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import CardConfirmation from '@/components/CardConfirmation'
 
 export default Vue.extend({
-  components: {
-    CardConfirmation
-  },
   scrollToTop: true,
   transition: 'slide-bottom',
   computed: {

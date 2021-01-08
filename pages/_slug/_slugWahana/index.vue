@@ -16,7 +16,7 @@
       :quota="Number(quota)"
       :description="description"
     />
-    <FormWahana
+    <LazyFormWahana
       v-if="$auth.loggedIn && isAllow"
       :title="wahanaName"
       :other-fields="otherFields"
@@ -28,16 +28,10 @@
 
 <script>
 import Vue from 'vue'
-import InfoWahana from '@/components/InfoWahana'
-import FormWahana from '@/components/FormWahana'
 import { getFormArea } from '@/api/form'
 import { getWahanaArea } from '@/api/wahana'
 
 export default Vue.extend({
-  components: {
-    InfoWahana,
-    FormWahana
-  },
   // middleware: ['auth'],
   async asyncData ({ $axios, route, redirect, $auth }) {
     try {

@@ -18,7 +18,7 @@
       :location="location"
       :wahanas="wahanas"
     />
-    <FormTiket
+    <LazyFormTiket
       v-if="!isServer"
       :title="name"
       :other-fields="otherFields"
@@ -31,18 +31,12 @@
 
 <script>
 import Vue from 'vue'
-import InfoArea from '@/components/InfoArea'
-import FormTiket from '@/components/FormTiket'
 import { getAreaDetail } from '@/api/area'
 import { getFormArea } from '@/api/form'
 import { getWahanaArea } from '@/api/wahana'
 import { getPackageArea } from '@/api/package'
 
 export default Vue.extend({
-  components: {
-    InfoArea,
-    FormTiket
-  },
   async asyncData ({ $axios, route, redirect }) {
     try {
       const reqAreaDetail = { slug: route.params.slug }
@@ -67,13 +61,11 @@ export default Vue.extend({
   },
   data () {
     return {
-      visible: false
+      visible: false,
+      isServer: true
     }
   },
   computed: {
-    isServer () {
-      return !process.client
-    },
     routes () {
       return [
         {
@@ -86,6 +78,9 @@ export default Vue.extend({
         }
       ]
     }
+  },
+  mounted () {
+    this.isServer = false
   },
   scrollToTop: true,
   transition: 'slide-bottom'

@@ -1,7 +1,7 @@
 <template>
   <a-layout id="components-layout-demo-top-side">
     <a-layout-header class="header">
-      <TopNavbar />
+      <LazyTopNavbar />
     </a-layout-header>
     <a-layout-content class="content-layout-default">
       <a-layout style="padding: 24px 0; background: #fff; margin: 16px 0; max-width: 1400px; width: 100%">
@@ -18,12 +18,8 @@
 
 <script>
 import Vue from 'vue'
-import TopNavbar from '@/components/TopNavbar'
 
 export default Vue.extend({
-  components: {
-    TopNavbar
-  },
   data () {
     return {
       show: false

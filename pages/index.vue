@@ -10,7 +10,7 @@
         :xs="24"
         style="padding: 10px 5px;"
       >
-        <CardArea
+        <LazyCardArea
           :title="name"
           :description="location"
           :link="`/${slug}`"
@@ -25,13 +25,9 @@
 
 <script>
 import Vue from 'vue'
-import CardArea from '@/components/CardArea'
 import { getAreaList } from '@/api/area'
 
 export default Vue.extend({
-  components: {
-    CardArea
-  },
   scrollToTop: true,
   transition: 'slide-bottom',
   async asyncData ({ $axios, redirect }) {

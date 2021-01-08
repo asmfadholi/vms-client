@@ -18,7 +18,7 @@
       :location="location"
       :wahanas="wahanas"
     />
-    <FormArea
+    <LazyFormArea
       v-if="isAllow"
       :title="name"
       :other-fields="otherFields"
@@ -31,19 +31,12 @@
 
 <script>
 import Vue from 'vue'
-import InfoArea from '@/components/InfoArea'
-import FormArea from '@/components/FormArea'
 import { getAreaDetail } from '@/api/area'
 import { getFormArea } from '@/api/form'
 import { getWahanaArea } from '@/api/wahana'
 import { getPackageArea } from '@/api/package'
 
 export default Vue.extend({
-  components: {
-    InfoArea,
-    FormArea
-  },
-  // middleware: ['auth'],
   async asyncData ({ $axios, route, redirect }) {
     try {
       const reqAreaDetail = { slug: route.params.slug }
