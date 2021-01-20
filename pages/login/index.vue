@@ -8,7 +8,7 @@
   >
     <h2 class="wrap-logo">
       <nuxt-link to="/">
-        <div class="logo" />
+        <img src="~assets/images/outing-logo.png" class="logo" alt="outing">
       </nuxt-link>
     </h2>
     <a-form-model-item ref="identifier" label="Email" prop="identifier">
@@ -118,10 +118,11 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .login-page {
   .logo {
-    height: 50px;
-    width: 50px;
+    height: 120px;
+    width: 120px;
     margin: auto 0px;
-    background: #f2f2f2;
+    object-fit: contain;
+    background: transparent;
   }
   .wrap-logo {
     display: flex;

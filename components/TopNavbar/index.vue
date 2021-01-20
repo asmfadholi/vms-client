@@ -3,7 +3,7 @@
     <a-row>
       <a-col :span="8">
         <nuxt-link to="/">
-          <div class="logo" />
+          <img src="~assets/images/outing-logo.png" class="logo" alt="outing">
         </nuxt-link>
       </a-col>
       <a-col :span="8" style="justify-content: center">
@@ -104,8 +104,9 @@ export default Vue.extend({
   .logo {
     height: 50px;
     width: 50px;
+    object-fit: contain;
     margin: auto 0px;
-    background: #f2f2f2;
+    background: transparent;
   }
 }
 </style>
