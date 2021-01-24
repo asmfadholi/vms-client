@@ -9,9 +9,17 @@
       <span>Pilih Jadwal & Tiket</span>
     </a-divider>
 
-    <a-form-model-item label="Pilih Tanggal" prop="date">
+    <a-form-model-item label="Jenis Tiket" prop="package">
+      <a-select v-model="form.package" placeholder="Pilih Jenis Tiket" show-search>
+        <a-select-option v-for="({ name, id }) in packages" :key="id">
+          {{ name }}
+        </a-select-option>
+      </a-select>
+    </a-form-model-item>
+
+    <a-form-model-item label="Pilih Tanggal" prop="ticketDate">
       <a-date-picker
-        v-model="form.date"
+        v-model="form.ticketDate"
         format="DD MMM YYYY"
         :disabled-date="disabledDate"
         @change="onChangeSchedule"
@@ -39,14 +47,24 @@ import Vue from 'vue'
 import moment from 'moment'
 
 export default Vue.extend({
+  props: {
+    packages: {
+      type: Array,
+      default: () => []
+    }
+  },
   data () {
     return {
       form: {
-        date: null,
-        totalTicket: 1
+        ticketDate: null,
+        totalTicket: 1,
+        package: null
       },
       rules: {
-        date: [
+        ticketDate: [
+          { required: true, message: 'Field is required', trigger: 'change' }
+        ],
+        package: [
           { required: true, message: 'Field is required', trigger: 'change' }
         ],
         totalTicket: [
@@ -61,7 +79,7 @@ export default Vue.extend({
       return current && current < moment().startOf('day')
     },
     onChangeSchedule () {
-      this.$emit('onChange', { date: null, totalTicket: 1 })
+      this.$emit('onChange', { ticketDate: null, totalTicket: 1 })
     },
     onSubmit () {
       this.$refs.ruleForm.validate((valid) => {

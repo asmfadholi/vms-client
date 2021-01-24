@@ -7,18 +7,25 @@
     <a-steps v-model="current" type="navigation" size="small" :style="stepStyle">
       <a-step
         title="Langkah 1"
-        :status="schedule.date ? 'finish': 'process'"
+        :status="schedule.ticketDate ? 'finish': 'process'"
         description="Pilih Jadwal & Tiket"
       />
       <a-step
         title="Langkah 2"
-        :status="schedule.date ? 'process': 'wait'"
-        :disabled="!schedule.date"
+        :status="schedule.ticketDate ? 'process': 'wait'"
+        :disabled="!schedule.ticketDate"
         description="Lengkapi Identitas"
       />
     </a-steps>
-    <Schedule v-show="current === 0" @onChange="onChangeSchedule" @onSubmit="onSubmitSchedule" />
-    <Identities v-if="current === 1" :total-ticket="schedule.totalTicket" :other-fields="otherFields" :area-id="areaId" :title="title" />
+    <Schedule v-show="current === 0" :packages="packages" @onChange="onChangeSchedule" @onSubmit="onSubmitSchedule" />
+    <Identities
+      v-if="current === 1"
+      :total-ticket="schedule.totalTicket"
+      :other-fields="otherFields"
+      :area-id="areaId"
+      :title="title"
+      :schedule="schedule"
+    />
   </div>
 </template>
 
@@ -41,6 +48,10 @@ export default Vue.extend({
       type: Number,
       default: 0
     },
+    packages: {
+      type: Array,
+      default: () => []
+    },
     otherFields: {
       type: Array,
       default: () => []
@@ -53,7 +64,7 @@ export default Vue.extend({
         boxShadow: '0px -1px 0 0 #e8e8e8 inset'
       },
       schedule: {
-        date: null,
+        ticketDate: null,
         totalTicket: 1
       },
       current: 0

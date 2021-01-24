@@ -33,6 +33,10 @@ export default Vue.extend({
       type: String,
       default: '-'
     },
+    schedule: {
+      type: Object,
+      default: () => {}
+    },
     areaId: {
       type: Number,
       default: 0
@@ -58,7 +62,7 @@ export default Vue.extend({
     async onSubmit () {
       this.loading = true
       try {
-        const createTickets = this.filterIdentities.map(filter => createTicket({ axios: this.$axios, req: filter }))
+        const createTickets = this.filterIdentities.map(filter => createTicket({ axios: this.$axios, req: { ...filter, ...this.schedule } }))
         await Promise.all(createTickets)
         this.success()
         this.$router.push(`/confirmation?areaName=${this.title}&type=Transaksi`)

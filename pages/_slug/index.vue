@@ -42,7 +42,7 @@ import Vue from 'vue'
 import { getAreaDetail } from '@/api/area'
 import { getFormArea } from '@/api/form'
 import { getWahanaArea } from '@/api/wahana'
-// import { getPackageArea } from '@/api/package'
+import { getPackageArea } from '@/api/package'
 
 export default Vue.extend({
   async asyncData ({ $axios, route, redirect }) {
@@ -57,8 +57,8 @@ export default Vue.extend({
         getAreaDetail({ axios: $axios, req: reqAreaDetail }),
         getFormArea({ axios: $axios, req: reqSlugArea }),
         getWahanaArea({ axios: $axios, req: reqSlugArea }),
-        []
-        // getPackageArea({ axios: $axios, req: reqSlugArea })
+        // []
+        getPackageArea({ axios: $axios, req: reqSlugArea })
       ]
       const resWrapFetch = await Promise.all(wrapFetch)
       const { images = [], name = '', description = '', maxQuota = null, location = '', id = 0 } = resWrapFetch[0][0] || {}
