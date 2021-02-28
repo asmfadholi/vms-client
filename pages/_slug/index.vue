@@ -48,31 +48,31 @@ export default Vue.extend({
   async asyncData ({ $axios, route, redirect }) {
     try {
       const reqAreaDetail = { slug: route.params.slug }
-      const reqSlugArea = {
-        area: {
-          slug: route.params.slug
-        }
-      }
+      // const reqSlugArea = {
+      //   area: {
+      //     slug: route.params.slug
+      //   }
+      // }
       const wrapFetch = [
-        getAreaDetail({ axios: $axios, req: reqAreaDetail }),
-        getFormArea({ axios: $axios, req: reqSlugArea }),
-        getWahanaArea({ axios: $axios, req: reqSlugArea }),
-        // []
-        getPackageArea({ axios: $axios, req: reqSlugArea })
+        getAreaDetail({ axios: $axios, req: reqAreaDetail })
+        // getFormArea({ axios: $axios, req: reqSlugArea }),
+        // getWahanaArea({ axios: $axios, req: reqSlugArea }),
+        // // []
+        // getPackageArea({ axios: $axios, req: reqSlugArea })
       ]
       const resWrapFetch = await Promise.all(wrapFetch)
       const { images = [], name = '', description = '', maxQuota = null, location = '', id = 0 } = resWrapFetch[0][0] || {}
-      const { otherFields = [] } = resWrapFetch[1][0] || {}
+      // const { otherFields = [] } = resWrapFetch[1][0] || {}
       return {
         areaId: id,
         images,
         name,
         description,
         quota: maxQuota,
-        location,
-        otherFields,
-        wahanas: resWrapFetch[2],
-        packages: resWrapFetch[3]
+        location
+        // otherFields,
+        // wahanas: resWrapFetch[2],
+        // packages: resWrapFetch[3]
       }
     } catch (err) {
       redirect('/sorry')
@@ -80,7 +80,10 @@ export default Vue.extend({
   },
   data () {
     return {
+      otherFields: [],
       isAllow: false,
+      wahanas: [],
+      pacakges: [],
       visible: false
     }
   },
@@ -98,10 +101,22 @@ export default Vue.extend({
       ]
     }
   },
-  mounted () {
-    // const { role = {} } = this.$auth.$storage.getUniversal('user') || {}
-    // const { type = '' } = role
-    // const isAllow = type === 'admin_area' || type === 'super_admin'
+  async mounted () {
+    const reqSlugArea = {
+      area: {
+        slug: this.$route.params.slug
+      }
+    }
+    const wrapFetch = [
+      getFormArea({ axios: this.$axios, req: reqSlugArea }),
+      getWahanaArea({ axios: this.$axios, req: reqSlugArea }),
+      getPackageArea({ axios: this.$axios, req: reqSlugArea })
+    ]
+    const resWrapFetch = await Promise.all(wrapFetch)
+    const { otherFields = [] } = resWrapFetch[0][0] || {}
+    this.otherFields = otherFields
+    this.wahanas = resWrapFetch[1]
+    this.packages = resWrapFetch[2]
     this.isAllow = true
   },
   scrollToTop: true,

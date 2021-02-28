@@ -7,13 +7,13 @@
         alt="banner"
       >
       <a-card-meta :title="title" :description="description" />
-      <template v-if="mode === 'payment'" slot="actions" class="ant-card-actions">
+      <!-- <template v-if="mode === 'payment'" slot="actions" class="ant-card-actions">
         <nuxt-link :to="`/payment/${slug}`">
           <a-button type="primary">
             Beli Tiket
           </a-button>
         </nuxt-link>
-      </template>
+      </template> -->
     </a-card>
   </nuxt-link>
 </template>
