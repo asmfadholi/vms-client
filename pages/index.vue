@@ -11,6 +11,7 @@
         style="padding: 10px 5px;"
       >
         <LazyCardArea
+          :key="idx"
           :title="name"
           :description="location"
           :link="`/${slug}`"

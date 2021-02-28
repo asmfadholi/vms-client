@@ -2,6 +2,13 @@
   <nuxt-link :to="link" style="width: 100%; display: flex; justify-content: center">
     <a-card hoverable style="max-width: 300px; width: 100%" class="card-area-component">
       <img
+        v-if="Number(key) < 9"
+        slot="cover"
+        :src="$generateUrl(image)"
+        alt="banner"
+      >
+      <img
+        v-else
         slot="cover"
         v-lazy="$generateUrl(image)"
         alt="banner"
@@ -24,6 +31,10 @@ import Vue from 'vue'
 export default Vue.extend({
   props: {
     slug: {
+      type: String,
+      default: ''
+    },
+    key: {
       type: String,
       default: ''
     },
