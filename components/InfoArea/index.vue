@@ -15,7 +15,8 @@
         <a-icon type="right-circle" />
       </div>
       <div v-for="(image, idx) in images" :key="idx">
-        <img v-lazy="findImage(image)" class="banner-area" alt="banner">
+        <img v-if="Number(idx) < 3" :src="findImage(image)" class="banner-area" alt="banner">
+        <img v-else v-lazy="findImage(image)" class="banner-area" alt="banner">
       </div>
     </a-carousel>
     <a-divider>
