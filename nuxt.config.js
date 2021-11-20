@@ -2,6 +2,7 @@ require('dotenv').config()
 
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
+  target: 'static',
   head: {
     title: 'vms-client',
     meta: [
