@@ -45,6 +45,9 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa'
   ],
+  server: {
+    host: '0.0.0.0' // default: localhost
+  },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
