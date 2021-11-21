@@ -4,11 +4,11 @@ export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   target: 'static',
   head: {
-    title: 'vms-client',
+    title: 'Desa Wisata',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      { hid: 'description', name: 'description', content: 'Pesan tiket wisata jadi lebih mudah' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
