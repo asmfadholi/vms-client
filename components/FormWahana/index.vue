@@ -237,7 +237,7 @@ export default Vue.extend({
           const req = { ...this.form, wahana: this.wahanaId }
 
           // assign other parameter
-          req.phoneNumber = Number(phoneNumber)
+          req.phoneNumber = String(phoneNumber)
           this.doCreateWahanaVisitor(req)
         } else {
           return false

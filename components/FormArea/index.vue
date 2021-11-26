@@ -267,7 +267,7 @@ export default Vue.extend({
           const req = { ...this.form }
 
           // assign other parameter
-          req.phoneNumber = Number(phoneNumber)
+          req.phoneNumber = String(phoneNumber)
 
           // change package format
           if (packageData) {
