@@ -33,7 +33,8 @@ export default Vue.extend({
   transition: 'slide-bottom',
   async asyncData ({ $axios, redirect }) {
     try {
-      const areas = await getAreaList({ axios: $axios })
+      const req = { limit: 100, offset: 0 };
+      const areas = await getAreaList({ axios: $axios, req })
       return { areas }
     } catch (err) {
       redirect('/sorry')
