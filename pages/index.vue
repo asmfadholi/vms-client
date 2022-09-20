@@ -26,18 +26,18 @@
 
 <script>
 import Vue from 'vue'
-import { message } from 'ant-design-vue';
+import { message } from 'ant-design-vue'
 import { getAreaList } from '@/api/area'
 
 export default Vue.extend({
   scrollToTop: true,
   transition: 'slide-bottom',
-  data() {
+  data () {
     return {
-      areas: [],
+      areas: []
     }
   },
-  created() {
+  mounted () {
     this.fetchAreaList()
   },
   methods: {
@@ -49,13 +49,13 @@ export default Vue.extend({
         return url
       }
     },
-    async fetchAreaList() {
+    async fetchAreaList () {
       try {
         const req = { limit: 100, offset: 0 }
-        const areas = await getAreaList({ axios: $axios, req })
+        const areas = await getAreaList({ axios: this.$axios, req })
         this.areas = areas
-      } catch {
-        message.info('Oops something went wrong!');
+      } catch (err) {
+        message.error('Oops something went wrong!')
       }
     }
   }
