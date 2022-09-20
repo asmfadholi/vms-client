@@ -26,19 +26,19 @@
 
 <script>
 import Vue from 'vue'
+import { message } from 'ant-design-vue';
 import { getAreaList } from '@/api/area'
 
 export default Vue.extend({
   scrollToTop: true,
   transition: 'slide-bottom',
-  async asyncData ({ $axios, redirect }) {
-    try {
-      const req = { limit: 100, offset: 0 };
-      const areas = await getAreaList({ axios: $axios, req })
-      return { areas }
-    } catch (err) {
-      redirect('/sorry')
+  data() {
+    return {
+      areas: [],
     }
+  },
+  created() {
+    this.fetchAreaList()
   },
   methods: {
     findImage (val) {
@@ -47,6 +47,15 @@ export default Vue.extend({
         const { thumbnail = {}, medium = null } = formats || {}
         const { url } = medium || thumbnail
         return url
+      }
+    },
+    async fetchAreaList() {
+      try {
+        const req = { limit: 100, offset: 0 }
+        const areas = await getAreaList({ axios: $axios, req })
+        this.areas = areas
+      } catch {
+        message.info('Oops something went wrong!');
       }
     }
   }
