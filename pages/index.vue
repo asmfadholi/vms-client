@@ -51,7 +51,7 @@ export default Vue.extend({
     },
     async fetchAreaList () {
       try {
-        const req = { limit: 100, offset: 0 }
+        const req = { _limit: 100, _start: 0 }
         const areas = await getAreaList({ axios: this.$axios, req })
         this.areas = areas
       } catch (err) {
