@@ -53,7 +53,7 @@ export default Vue.extend({
       try {
         const req = { _limit: 100, _start: 0 }
         const areas = await getAreaList({ axios: this.$axios, req })
-        this.areas = areas
+        this.areas.push(...areas)
       } catch (err) {
         message.error('Oops something went wrong!')
       }

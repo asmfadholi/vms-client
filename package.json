@@ -60,10 +60,6 @@
     "ts-jest": "^26.4.1",
     "vue-jest": "^3.0.4"
   },
-  "engines": {
-    "node": "12.22.0",
-    "npm": ">=6.0.0"
-  },
   "peerDependencies": {
     "dotenv": "^8.2.0"
   }
